@@ -17,7 +17,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 1rem;
+            padding: 2rem; /* Increased overall padding on the body */
             box-sizing: border-box;
         }
         .nerdy-heading {
@@ -36,21 +36,15 @@
             from { opacity: 0.05; }
             to { opacity: 0.15; }
         }
-        .llm-button {
-            background-image: linear-gradient(to right, #6EE7B7 0%, #3B82F6 100%);
-            transition: all 0.3s ease;
-        }
-        .llm-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-        }
+        /* No specific .llm-button style needed anymore */
     </style>
 </head>
 <body>
-    <div class="relative bg-gray-900 p-8 md:p-12 lg:p-16 rounded-2xl shadow-2xl max-w-2xl w-full text-center border-b-4 border-t-4 border-teal-500 overflow-hidden">
+    <div class="relative bg-gray-900 p-10 md:p-14 lg:p-20 rounded-2xl shadow-2xl max-w-2xl w-full text-center border-b-4 border-t-4 border-teal-500 overflow-hidden">
         <!-- More prominent binary-style background pattern -->
         <div class="absolute inset-0 opacity-10 pointer-events-none z-0">
-            <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http="http://www.w3.org/2000/svg" fill="#333">
+            <!-- Corrected xmlns attribute in SVG -->
+            <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#333">
                 <!-- Binary grid pattern -->
                 <g class="animated-bg-dots">
                     <!-- Row 1 -->
@@ -69,13 +63,15 @@
 
 
         <div class="relative z-10">
-            <h1 class="nerdy-heading text-4xl md:text-5xl lg:text-6xl font-bold text-cyan-400 mb-6 tracking-tighter">
+            <!-- Adjusted font size for better fit of .EXE -->
+            <h1 class="nerdy-heading text-4xl md:text-5xl lg:text-5xl font-bold text-cyan-400 mb-6 tracking-tighter">
                 <span class="text-white">INITIATING</span> <span class="text-red-400">BIRTHDAY.EXE</span> FOR ZACH!
             </h1>
 
             <p class="text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
                 Prepare for a system upgrade as we celebrate Zach reaching a truly significant <span class="font-bold text-teal-400">Power of 2</span> milestone:
                 <br>
+                <!-- Adjusted font sizes for binary text as requested: 3xl, 4xl, 5xl -->
                 <span class="text-3xl md:text-4xl lg:text-5xl font-extrabold block my-4 binary-text">32<sub>DEC</sub> (100000<sub>BIN</sub>)</span>
             </p>
 
@@ -99,20 +95,6 @@
                 Your presence is required to complete this festive algorithm and ensure maximum fun!
             </p>
 
-            <!-- LLM Feature Section -->
-            <div class="bg-gray-800 p-6 rounded-xl mb-8 shadow-inner border border-gray-700">
-                <h3 class="text-xl md:text-2xl font-bold text-yellow-300 mb-4 nerdy-heading">
-                    Need a Nerdy Wish?
-                </h3>
-                <button id="generateWishBtn" class="llm-button text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out">
-                    ✨ Generate Nerdy Birthday Wish ✨
-                </button>
-                <div id="wishOutput" class="mt-6 text-gray-200 text-lg leading-relaxed text-left p-4 bg-gray-700 rounded-lg hidden">
-                    <!-- Generated wish will appear here -->
-                    <p class="text-gray-400 italic">Generating...</p>
-                </div>
-            </div>
-
             <p class="nerdy-heading text-2xl font-semibold text-purple-400">
                 Processing fun... see you there!
             </p>
@@ -123,48 +105,6 @@
             </p>
         </div>
     </div>
-
-    <script>
-        document.getElementById('generateWishBtn').addEventListener('click', async () => {
-            const wishOutput = document.getElementById('wishOutput');
-            wishOutput.classList.remove('hidden');
-            wishOutput.innerHTML = '<p class="text-gray-400 italic">Generating...</p>'; // Show loading
-
-            try {
-                // Construct the prompt for the LLM
-                const prompt = "Generate a short, nerdy, and fun birthday greeting for Zach, who is turning 32 (a power of 2). Incorporate terms like 'binary', 'byte-sized', 'algorithm', 'system upgrade', 'debug', 'compile', 'processor', 'data', or similar tech/math concepts.";
-
-                let chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-
-                const payload = { contents: chatHistory };
-                const apiKey = ""; // Canvas will automatically provide the API key at runtime
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const text = result.candidates[0].content.parts[0].text;
-                    wishOutput.innerHTML = `<p>${text}</p>`; // Display the generated wish
-                } else {
-                    wishOutput.innerHTML = '<p class="text-red-400">Error: Could not generate wish. Please try again.</p>';
-                    console.error('Unexpected API response structure:', result);
-                }
-            } catch (error) {
-                wishOutput.innerHTML = '<p class="text-red-400">Error: Failed to connect to the wish generator. Check console for details.</p>';
-                console.error('Error generating wish:', error);
-            }
-        });
-    </script>
+    <!-- The JavaScript related to the Gemini feature has been removed -->
 </body>
 </html>
-
-
